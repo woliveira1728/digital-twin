@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  digital_twin:
+    build: ./digital_twin
+    container_name: digital_twin
+    networks:
+      - iot_net
+
+  sniffer:
+    build: ./sniffer
+    container_name: sniffer
+    networks:
+      - iot_net
+    volumes:
+      - /tmp/sniffer.log:/tmp/sniffer.log
+
+  device:
+    build: ./device
+    container_name: device
+    networks:
+      - iot_net
+    environment:
+      HOST: sniffer
+      PORT: 9000
+
+  mqtt_broker:
+    image: eclipse-mosquitto:2
+    container_name: mqtt_broker
+    networks:
+      - iot_net
+    ports:
+      - "1884:1884"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+networks:
+  iot_net:
+    driver: bridge
