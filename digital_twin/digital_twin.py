@@ -1,7 +1,7 @@
 import socket
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from paho.mqtt.client import Client
+from paho.mqtt.client import Client, CallbackAPIVersion
 from opcua import Server
 import asyncio
 from aiocoap import Context, Message, Code
@@ -17,6 +17,18 @@ OPCUA_PORT = 4840
 COAP_PORT = 5683
 
 print("[TWIN] Servidor iniciando...")
+
+# Cliente MQTT persistente para publicar comandos.
+# Isso evita a sobrecarga de conectar/desconectar para cada comando.
+try:
+    command_publisher_client = Client(CallbackAPIVersion.VERSION1, "twin_command_publisher")
+    command_publisher_client.connect("mqtt_broker", MQTT_PORT, 60)
+    command_publisher_client.loop_start() # Mantém a conexão ativa em uma thread de fundo
+    print("[TWIN] Cliente publicador de comandos conectado ao broker.")
+except Exception as e:
+    print(f"[TWIN][ERRO] Falha ao conectar cliente publicador de comandos: {e}")
+    command_publisher_client = None
+
 
 # Função para lidar com conexões TCP
 def handle_tcp():
@@ -37,8 +49,20 @@ def handle_tcp():
 class HTTPHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
-        print(f"[TWIN] Dados recebidos via HTTP: {post_data.decode('utf-8')}")
+        post_data = self.rfile.read(content_length).decode('utf-8')
+        print(f"[TWIN] Dados recebidos via HTTP: {post_data}")
+
+        # Adicionado: Processa o comando e o encaminha para o device
+        try:
+            if '=' in post_data:
+                key, value = post_data.split('=', 1)
+                if key.strip() == 'comando':
+                    command_to_send = value.strip()
+                    print(f"[TWIN] Encaminhando comando '{command_to_send}' para o device via MQTT.")
+                    send_command_to_device(command_to_send)
+        except Exception as e:
+            print(f"[TWIN] Erro ao processar comando HTTP: {e}")
+
         self.send_response(200)
         self.end_headers()
 
@@ -57,7 +81,7 @@ def handle_mqtt():
     def on_message(client, userdata, msg):
         print(f"[TWIN] Dados recebidos via MQTT no tópico {msg.topic}: {msg.payload.decode('utf-8')}")
 
-    client = Client()
+    client = Client(CallbackAPIVersion.VERSION1)
     client.on_connect = on_connect
     client.on_message = on_message
 
@@ -70,11 +94,11 @@ def handle_mqtt():
 
 # Função para enviar comandos ao device via MQTT
 def send_command_to_device(command):
-    client = Client()
-    client.connect("mqtt_broker", MQTT_PORT, 60)
-    client.publish("device/commands", command)
-    client.disconnect()
-    print(f"[TWIN] Comando enviado ao device: {command}")
+    """Usa o cliente MQTT persistente para publicar um comando."""
+    if command_publisher_client and command_publisher_client.is_connected():
+        command_publisher_client.publish("device/commands", command)
+    else:
+        print("[TWIN][ERRO] Cliente publicador de comandos não está conectado. O comando não foi enviado.")
 
 # Prompt interativo para enviar comandos a qualquer momento
 def command_prompt():
@@ -115,4 +139,11 @@ threading.Thread(target=handle_http, daemon=True).start()
 threading.Thread(target=handle_mqtt, daemon=True).start()
 threading.Thread(target=handle_opcua, daemon=True).start()
 threading.Thread(target=lambda: asyncio.run(handle_coap()), daemon=True).start()
-command_prompt()  # Prompt interativo no thread principal
+# O prompt de comando interativo bloqueia a execução em modo detached.
+# Substituímos por um loop para manter o contêiner ativo.
+print("[TWIN] Gêmeo Digital em execução. Pressione Ctrl+C para parar se estiver em modo interativo.")
+try:
+    while True:
+        time.sleep(3600) # Mantém a thread principal viva
+except KeyboardInterrupt:
+    print("\n[TWIN] Gêmeo Digital encerrando.")

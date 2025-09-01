@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   digital_twin:
     build: ./digital_twin
@@ -7,13 +5,23 @@ services:
     networks:
       - iot_net
 
+  attacker:
+    build: ./attacker
+    networks:
+      - iot_net
+
+  mitm_proxy:
+    build: ./mitm_proxy
+    container_name: mitm_proxy
+    networks:
+      - iot_net
   sniffer:
     build: ./sniffer
     container_name: sniffer
     networks:
       - iot_net
     volumes:
-      - /tmp/sniffer.log:/tmp/sniffer.log
+      - /tmp/sniffer_logs:/logs
 
   device:
     build: ./device
