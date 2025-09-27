@@ -76,8 +76,8 @@ graph LR
 
 To run this project, you need the following software installed:
 
-- Docker
-- Docker Compose
+- Docker Engine (version 28.4.0 or higher)
+- Docker Compose (version v2.39.4 or higher)
 
 ### 4. Installation and Execution
 
@@ -175,6 +175,22 @@ docker compose down
 ├── docker-compose.yml    # Service orchestration
 └── README.md
 ```
+### 9. How to Cite
+
+If you use this simulation environment in your research, please cite our article:
+
+```bibtex
+@article{digitwinsym2024,
+  title={A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication},
+  author={[Rodrigues, Cláudio; Junior, Waldir S. S.; Oliveira, Wilson D; Silva, Isomar]},
+  journal={[Journal name will be added when published]},
+  year={2025},
+  note={Code available at: https://github.com/woliveira1728/digital-twin}
+}
+```
+
+For IEEE format:
+> [Rodrigues, Cláudio; Junior, Waldir S. S.; Oliveira, Wilson D; Silva, Isomar], "A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication," [Journal Name], 2025. [Online]. Available: https://github.com/woliveira1728/digital-twin
 
 ---
 
@@ -250,8 +266,8 @@ graph LR
 
 Para executar este projeto, você precisará ter os seguintes softwares instalados:
 
-- Docker
-- Docker Compose
+- Docker Engine (versão 28.4.0 ou superior)
+- Docker Compose (versão v2.39.4 ou superior)
 
 ### 4. Instalação e Execução
 
@@ -349,3 +365,20 @@ docker compose down
 ├── docker-compose.yml    # Orquestração dos serviços
 └── README.md
 ```
+
+### 9. Como Citar
+
+Se você utilizar este ambiente de simulação em sua pesquisa, por favor, cite nosso artigo:
+
+```bibtex
+@article{digitwinsym2024,
+  title={A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication},
+  author={[Rodrigues, Cláudio; Junior, Waldir S. S.; Oliveira, Wilson D; Silva, Isomar]},
+  journal={[Journal name will be added when published]},
+  year={2025},
+  note={Code available at: https://github.com/woliveira1728/digital-twin}
+}
+```
+
+Para formato IEEE:
+> [Rodrigues, Cláudio; Junior, Waldir S. S.; Oliveira, Wilson D; Silva, Isomar], "A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication," [Journal Name], 2025. [Online]. Available: https://github.com/woliveira1728/digital-twin
