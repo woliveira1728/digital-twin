@@ -190,7 +190,10 @@ If you use this simulation environment in your research, please cite our article
 ```
 
 For IEEE format:
-> [Rodrigues, Cláudio; Junior, Waldir S. S.; Oliveira, Wilson D; Silva, Isomar], "A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication," [Journal Name], 2025. [Online]. Available: https://github.com/woliveira1728/digital-twin
+> C. Rodrigues, W. S. S. Júnior, W. Oliveira, and I. Lima, 
+"A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication," 
+Sensors, vol. 25, no. 24, p. 7476, 2025. 
+[Online]. Available: https://github.com/woliveira1728/digital-twin
 
 ---
 
@@ -372,13 +375,22 @@ Se você utilizar este ambiente de simulação em sua pesquisa, por favor, cite 
 
 ```bibtex
 @article{digitwinsym2024,
-  title={A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication},
-  author={[Rodrigues, Cláudio; Junior, Waldir S. S.; Oliveira, Wilson D; Silva, Isomar]},
-  journal={[Journal name will be added when published]},
-  year={2025},
-  note={Code available at: https://github.com/woliveira1728/digital-twin}
+  title     = {A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication},
+  author    = {Rodrigues, Cl{\'a}udio and J{\'u}nior, Waldir S. S. and Oliveira, Wilson and Lima, Isomar},
+  journal   = {Sensors},
+  volume    = {25},
+  number    = {24},
+  pages     = {7476},
+  year      = {2025},
+  publisher = {MDPI},
+  doi       = {10.3390/s25247476},
+  url       = {https://doi.org/10.3390/s25247476},
+  note      = {Code available at: https://github.com/woliveira1728/digital-twin}
 }
 ```
 
 Para formato IEEE:
-> [Rodrigues, Cláudio; Junior, Waldir S. S.; Oliveira, Wilson D; Silva, Isomar], "A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication," [Journal Name], 2025. [Online]. Available: https://github.com/woliveira1728/digital-twin
+> C. Rodrigues, W. S. S. Júnior, W. Oliveira, and I. Lima, 
+"A Data Rate Monitoring Approach for Cyberattack Detection in Digital Twin Communication," 
+Sensors, vol. 25, no. 24, p. 7476, 2025. 
+[Online]. Available: https://github.com/woliveira1728/digital-twin
